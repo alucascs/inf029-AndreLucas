@@ -138,6 +138,15 @@ DataQuebrada quebraData(char data[]){
     
   return dq;
 }
+
+int isLeapYear(int year) {
+    if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0)) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 /*
  Q1 = validar data
 @objetivo
@@ -172,24 +181,14 @@ int q1(char data[])
         datavalida = 0;
       break;
     case 2:
-      if (dq.iAno % 4 == 0) {
-          if (dq.iAno % 100 == 0) {
-              if (dq.iAno % 400 == 0) {
-                  if(dq.iDia < 1 || dq.iDia > 29)
-                    datavalida = 0;
-                break;
-              }
-              if(dq.iDia < 1 || dq.iDia > 28)
-                datavalida = 0;
-              break;
-          }
-           if(dq.iDia < 1 || dq.iDia > 29)
+      if (isLeapYear(dq.iAno)){
+        if(dq.iDia < 1 || dq.iDia > 29)
             datavalida = 0;
-        break;
       }
-      if(dq.iDia < 1 || dq.iDia > 28)
-        datavalida = 0;
-      break;
+      else{
+        if(dq.iDia < 1 || dq.iDia > 28)
+            datavalida = 0;
+      }
     case 3:
       if(dq.iDia < 1 || dq.iDia > 31)
         datavalida = 0;
@@ -255,14 +254,6 @@ int q1(char data[])
     Caso o cálculo esteja correto, os atributos qtdDias, qtdMeses e qtdAnos devem ser preenchidos com os valores correspondentes.
  */
 
-int isLeapYear(int year) {
-    if ((year % 400 == 0) || (year % 4 == 0 && year % 100 != 0)) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 DiasMesesAnos q2(char datainicial[], char datafinal[])
 {
 
@@ -277,91 +268,89 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
     dma.retorno = 3;
     return dma;
   }
-  else
-  {   
-    DataQuebrada dataIn = quebraData(datainicial);
-    DataQuebrada dataFim = quebraData(datafinal);
-    //verifique se a data final não é menor que a data inicial
-    if(dataFim.iAno < dataIn.iAno){
-      dma.retorno = 4;
-      return dma;
+    
+  DataQuebrada dataIn = quebraData(datainicial);
+  DataQuebrada dataFim = quebraData(datafinal);
+  //verifique se a data final não é menor que a data inicial
+  if(dataFim.iAno < dataIn.iAno){
+    dma.retorno = 4;
+    return dma;
+  }
+  else if(dataFim.iMes < dataIn.iMes && dataFim.iAno == dataIn.iAno){
+    dma.retorno = 4;
+    return dma;
+  }
+  else if (dataFim.iDia < dataIn.iDia && dataFim.iMes == dataIn.iMes && dataFim.iAno == dataIn.iAno){
+    dma.retorno = 4;
+    return dma;
+  }
+  //calcule a distancia entre as datas
+  //Anos
+  if (dataFim.iAno > dataIn.iAno + 1){
+    dma.qtdAnos = dataFim.iAno - dataIn.iAno - 1;
+    if(dataFim.iMes > dataIn.iMes)
+      dma.qtdAnos++;
+    else if(dataFim.iMes == dataIn.iMes && dataFim.iDia >= dataIn.iDia)
+      dma.qtdAnos++;
+  }
+  else if(dataFim.iAno > dataIn.iAno){
+    if(dataFim.iMes > dataIn.iMes)
+      dma.qtdAnos = 1;
+    else if(dataFim.iMes == dataIn.iMes && dataFim.iDia >= dataIn.iDia)
+      dma.qtdAnos = 1;
+    else
+      dma.qtdAnos = 0;
+  }
+  else{
+    dma.qtdAnos = 0;
+  }
+  //Meses
+  if(dataFim.iMes < dataIn.iMes){
+    dma.qtdMeses = dataIn.iMes - dataFim.iMes;
+    dma.qtdMeses = (dma.qtdMeses - 11) * (-1);
+    if(dataFim.iDia >= dataIn.iDia){
+      dma.qtdMeses++;
     }
-    else if(dataFim.iMes < dataIn.iMes && dataFim.iAno == dataIn.iAno){
-      dma.retorno = 4;
-      return dma;
-    }
-    else if (dataFim.iDia < dataIn.iDia && dataFim.iMes == dataIn.iMes && dataFim.iAno == dataIn.iAno){
-      dma.retorno = 4;
-      return dma;
-    }
-    //calcule a distancia entre as datas
-    //Anos
-    if (dataFim.iAno > dataIn.iAno + 1){
-      dma.qtdAnos = dataFim.iAno - dataIn.iAno - 1;
-      if(dataFim.iMes > dataIn.iMes)
-        dma.qtdAnos++;
-      else if(dataFim.iMes == dataIn.iMes && dataFim.iDia >= dataIn.iDia)
-        dma.qtdAnos++;
-    }
-    else if(dataFim.iAno > dataIn.iAno){
-      if(dataFim.iMes > dataIn.iMes)
-        dma.qtdAnos = 1;
-      else if(dataFim.iMes == dataIn.iMes && dataFim.iDia >= dataIn.iDia)
-        dma.qtdAnos = 1;
-      else
-        dma.qtdAnos = 0;
+  }
+  else if(dataFim.iMes == dataIn.iMes){
+    if(dataFim.iDia < dataIn.iDia){
+      dma.qtdMeses = 12;
     }
     else{
-      dma.qtdAnos = 0;
+      dma.qtdMeses = 0;
     }
-    //Meses
-    if(dataFim.iMes < dataIn.iMes){
-      dma.qtdMeses = dataIn.iMes - dataFim.iMes;
-      dma.qtdMeses = (dma.qtdMeses - 11) * (-1);
-      if(dataFim.iDia >= dataIn.iDia){
-        dma.qtdMeses++;
-      }
+  }
+  else if(dataFim.iMes > dataIn.iMes + 1){
+    dma.qtdMeses = dataFim.iMes - dataIn.iMes - 1;
+    if(dataFim.iDia >= dataIn.iDia){
+      dma.qtdMeses++;
     }
-    else if(dataFim.iMes == dataIn.iMes){
-      if(dataFim.iDia < dataIn.iDia){
-        dma.qtdMeses = 12;
-      }
-      else{
-        dma.qtdMeses = 0;
-      }
+  }
+  else if(dataFim.iMes > dataIn.iMes){
+    if(dataFim.iDia >= dataIn.iDia){
+      dma.qtdMeses = 1;
     }
-    else if(dataFim.iMes > dataIn.iMes + 1){
-      dma.qtdMeses = dataFim.iMes - dataIn.iMes - 1;
-      if(dataFim.iDia >= dataIn.iDia){
-        dma.qtdMeses++;
-      }
+    else{
+      dma.qtdMeses = 0;
     }
-    else if(dataFim.iMes > dataIn.iMes){
-      if(dataFim.iDia >= dataIn.iDia){
-        dma.qtdMeses = 1;
-      }
-      else{
-        dma.qtdMeses = 0;
-      }
-    }  
-    //dia
-    int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  }  
+  //dia
+  int days[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+  
+  if(isLeapYear(dataFim.iAno) && (dataIn.iMes == 2 && dataFim.iMes == 3)){
+    days[1] = 29;
+  }
+  if(dataFim.iDia < dataIn.iDia){
+    dma.qtdDias = days[dataIn.iMes -1] - dataIn.iDia;
+    dma.qtdDias = (dma.qtdDias + dataFim.iDia);
+  }
+  else{
+    dma.qtdDias = dataFim.iDia - dataIn.iDia;
+  }
 
-    if(isLeapYear(dataFim.iAno) && (dataIn.iMes == 2 && dataFim.iMes == 3)){
-            days[1] = 29; 
-    }    
-    if(dataFim.iDia < dataIn.iDia){
-      dma.qtdDias = dataIn.iDia - dataFim.iDia;
-      dma.qtdDias = (dma.qtdDias - days[dataFim.iMes]) * (-1);
-    }
-    else
-      dma.qtdDias = dataFim.iDia - dataIn.iDia;
-    }
-
-    //se tudo der certo
-    dma.retorno = 1;
-    return dma;
-      
+  //se tudo der certo
+  dma.retorno = 1;
+  return dma;
 }
     
 
@@ -418,7 +407,39 @@ int q3(char *texto, char c, int isCaseSensitive)
  */
 int q4(char *strTexto, char *strBusca, int posicoes[30])
 {
-    int qtdOcorrencias = -1;
+    int tam, aux, i, j, ver, k, qtd, neg;
+    char text[250], busca[30];
+    strcpy(text, strTexto);
+    strcpy(busca, strBusca);
+    int qtdOcorrencias = 0;
+    for(tam = 0; busca[tam]!='\0'; tam++){}
+    // printf("%d ", tam);
+    qtd = 0;
+    neg = 0;
+    for(i=0; text[i]!='\0'; i++){
+      if(text[i] == -61){
+          neg++;
+      }
+      if(text[i] == busca[0]){
+        k = 0;
+        aux = i + 1 - neg;
+        j = i;
+        ver = 0;
+        while(text[j]==busca[k]){
+          ver++;
+          j++;
+          k++;
+          i++;
+        }
+        if(ver == tam){
+          posicoes[qtd] = aux;
+          posicoes[qtd+1] = aux + tam - 1;
+          qtdOcorrencias++;
+          i--;
+          qtd+=2;
+        }
+      }
+    }
 
     return qtdOcorrencias;
 }
@@ -465,6 +486,25 @@ int q5(int num)
 
 int q6(int numerobase, int numerobusca)
 {
-    int qtdOcorrencias;
-    return qtdOcorrencias;
+    int qtdOcorrencias = 0, casabusca, num;
+    long long div, i, subdiv;
+    casabusca = 10;
+    while(numerobusca/casabusca!=0){
+      casabusca*=10;
+    }
+    div = 10;
+    while(numerobase/div!=0){
+      div*=10;
+    }
+    subdiv = div/casabusca;
+    for(i = div; subdiv>0; i/=10){
+      num = (numerobase%i)/subdiv;
+      if(num==numerobusca){
+        qtdOcorrencias++;
+        i = i/casabusca*10;
+        subdiv = subdiv/casabusca*10;
+      }
+      subdiv/=10;
+    }
+     return qtdOcorrencias;
 }
