@@ -511,29 +511,38 @@ int q6(int numerobase, int numerobusca)
 }
 
 void printTab(int jogadas[3][3]){
+  printf("  A   B   C \n");
+  int linha = 1;
   for(int i = 0; i<3; i++){
     for(int j = 0; j<3; j++){
       if(jogadas[i][j] == 1){
-        if(j != 2)
+        if(j == 0)
+          printf("%d X |", linha);
+        if(j == 1)
           printf(" X |");
         if(j == 2)
           printf(" X");
       }
       else if(jogadas[i][j] == 2){
-        if(j != 2)
+        if(j == 0)
+          printf("%d O |", linha);
+        if(j == 1)
           printf(" O |");
         if(j == 2)
           printf(" O");
       }
       else{
-        if(j != 2)
+        if(j == 0)
+          printf("%d   |", linha);
+        if(j == 1)
           printf("   |");
         if(j == 2)
           printf("  ");
       }
     }
     if(i != 2)
-     printf("\n-----------\n");
+     printf("\n  ---------\n");
+    linha++;
   }
   printf("\n");
 }
@@ -589,7 +598,7 @@ bool terminou(int jogadas[3][3]){
   return false;
 }
 
-int main(){
+void q7(){
   int jogadas[3][3];
   int vez = 0;
   char jog[3];
