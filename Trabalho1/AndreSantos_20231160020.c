@@ -487,8 +487,8 @@ int q5(int num)
 
 int q6(int numerobase, int numerobusca)
 {
-    int qtdOcorrencias = 0, casabusca, num;
-    long long div, i, subdiv;
+    int qtdOcorrencias = 0;
+    long long div, i, subdiv, casabusca, num;
     casabusca = 10;
     while(numerobusca/casabusca!=0){
       casabusca*=10;
