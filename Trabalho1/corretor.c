@@ -12,18 +12,19 @@ void testQ5();
 void testQ6();
 
 int main(){
-    printf("\nquestão 1\n");
-    testQ1(); // 10 testes
-    printf("\nquestão 2\n");
-    testQ2(); // 35 testes
-    printf("\nquestão 3\n");
-    testQ3(); // 13 testes
-    printf("\nquestão 4\n");
-    testQ4(); // 22 testes
-    printf("\nquestão 5\n");;
-    testQ5(); // 10 testes
-    printf("\nquestão 6\n");
+    // printf("\nquestão 1\n");
+    // testQ1(); // 10 testes
+    // printf("\nquestão 2\n");
+    // testQ2(); // 35 testes
+    // printf("\nquestão 3\n");
+    // testQ3(); // 13 testes
+    // printf("\nquestão 4\n");
+    // testQ4(); // 22 testes
+    // printf("\nquestão 5\n");;
+    // testQ5(); // 10 testes
+    // printf("\nquestão 6\n");
     testQ6(); // 10 testes 
+    // q7();
     
     
 }

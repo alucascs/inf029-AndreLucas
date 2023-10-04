@@ -11,10 +11,10 @@
 //  O aluno deve preencher seus dados abaixo, e implementar as questões do trabalho
 
 //  ----- Dados do Aluno -----
-//  Nome:
-//  email:
-//  Matrícula:
-//  Semestre:
+//  Nome: André Lucas Coelho dos Santos
+//  email: andrebr889@gmai.com
+//  Matrícula: 20231160020
+//  Semestre: 2023-2
 
 //  Copyright © 2016 Renato Novais. All rights reserved.
 // Última atualização: 07/05/2021
@@ -50,5 +50,5 @@ int q4(char *strTexto, char *strBusca, int posicoes[30]);
 int q5(int num);
 int q6(int numerobase, int numerobusca);
 DataQuebrada quebraData(char data[]);
-
+int isLeapYear(int year);
 #endif  // TRABALHO1_PRIMEIROULTIMONOMEMATRICULA_H
